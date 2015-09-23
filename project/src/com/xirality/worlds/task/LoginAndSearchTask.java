@@ -11,35 +11,33 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 
+import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.utils.IOUtils;
 
-public class LoginAndSearchTask extends AsyncTask<Void, Void, Boolean> {
-	private static final String TAG = "Search task";
-
+public class LoginAndSearchTask extends BaseTask<Boolean> {
+	
 	private static final int STATUS_OK = 200;
 	
 	private static final String WORLDS_REQUEST_URL = "http://backend1.lordsandknights.com/XYRALITY/WebObjects/BKLoginServer.woa/wa/worlds";
 	
 	private UserInfo userInfo;
 	
-	public LoginAndSearchTask(UserInfo userInfo) {
+	public LoginAndSearchTask(
+			Context context,
+			UserInfo userInfo,
+			TaskSuccessListener<Boolean> successListener,
+			TaskFailureListener failureListener) {
+		super(context, "Please wait...", true, successListener, failureListener, null);
 		this.userInfo = userInfo;
 	}
 	
 	@Override
-	protected Boolean doInBackground(Void... params) {
-		try {
-			return search();
-		} catch (Exception e) {
-			handleError(e);
-			return false;
-		}
+	protected TaskResult<Boolean> process(Object... params) throws Exception {
+		return new TaskResult<Boolean>(search());
 	}
 	
 	private Boolean search() throws ClientProtocolException, IOException, IllegalStateException, JSONException {
@@ -82,8 +80,4 @@ public class LoginAndSearchTask extends AsyncTask<Void, Void, Boolean> {
 	private String getFileName() {
 		return Environment.getExternalStorageDirectory() + File.separator + "worlds.dat";
 	}
-	
-	private void handleError(Exception e) {
-		Log.e(TAG, e.toString());
-	} 
 }
