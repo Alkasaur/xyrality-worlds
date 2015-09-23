@@ -18,6 +18,9 @@ import com.xirality.worlds.R;
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.utils.IOUtils;
 
+/**
+ * Login and search for available worlds
+ * */
 public class LoginAndSearchTask extends BaseTask<Boolean> {
 	private static final String KEY_DEVICE_ID = "deviceId";
 	private static final String KEY_DEVICE_TYPE = "deviceType";
@@ -54,6 +57,7 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
             
             int statusCode = httpResponse.getStatusLine().getStatusCode();
             if (statusCode == STATUS_OK) {
+            	// response is too long so let's save it into file
             	saveResponse(httpResponse);
             	return true;
             } else {

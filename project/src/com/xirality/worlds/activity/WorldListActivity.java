@@ -53,6 +53,7 @@ public class WorldListActivity extends ListActivity {
 		InputStream tempInputStream = null;
 		try {
 			fin = new FileInputStream(file);
+			//seems our server returns mailformed JSON, so need to fix it
 			out = (ByteArrayOutputStream) MailformedJSONConverter.fixAndConvert(fin);
 
 			tempInputStream = new ByteArrayInputStream(out.toByteArray());
