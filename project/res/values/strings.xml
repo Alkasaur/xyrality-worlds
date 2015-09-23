@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xirality Worlds</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_label">Login</string>
 </resources>
