@@ -78,6 +78,9 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
 	private void saveResponse(HttpResponse response) throws UnsupportedEncodingException, IllegalStateException, IOException, JSONException {
 		String fileName = IOUtils.getWorldsFileName();
 		File file = new File(fileName);
+		if (file.exists()) {
+			file.delete();
+		}
 		IOUtils.saveToFile(file, response.getEntity().getContent());
 	}
 }
