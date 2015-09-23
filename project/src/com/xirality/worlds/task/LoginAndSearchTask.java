@@ -14,10 +14,15 @@ import org.json.JSONException;
 import android.content.Context;
 import android.net.Uri;
 
+import com.xirality.worlds.R;
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.utils.IOUtils;
 
 public class LoginAndSearchTask extends BaseTask<Boolean> {
+	private static final String KEY_DEVICE_ID = "deviceId";
+	private static final String KEY_DEVICE_TYPE = "deviceType";
+	private static final String KEY_PASSWORD = "password";
+	private static final String KEY_LOGIN = "login";
 	
 	private static final int STATUS_OK = 200;
 	
@@ -30,7 +35,7 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
 			UserInfo userInfo,
 			TaskSuccessListener<Boolean> successListener,
 			TaskFailureListener failureListener) {
-		super(context, "Please wait...", true, successListener, failureListener, null);
+		super(context, context.getString(R.string.any_please_wait), true, successListener, failureListener, null);
 		this.userInfo = userInfo;
 	}
 	
@@ -62,15 +67,15 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
 	
 	private String getUrlWithParams() {
 		Uri.Builder paramBuilder = new Uri.Builder();
-		paramBuilder.appendQueryParameter("login", userInfo.getLogin());
-		paramBuilder.appendQueryParameter("password", userInfo.getPassword());
-		paramBuilder.appendQueryParameter("deviceType", userInfo.getDeviceType());
-		paramBuilder.appendQueryParameter("deviceId", userInfo.getDeviceId());
+		paramBuilder.appendQueryParameter(KEY_LOGIN, userInfo.getLogin());
+		paramBuilder.appendQueryParameter(KEY_PASSWORD, userInfo.getPassword());
+		paramBuilder.appendQueryParameter(KEY_DEVICE_TYPE, userInfo.getDeviceType());
+		paramBuilder.appendQueryParameter(KEY_DEVICE_ID, userInfo.getDeviceId());
 		
 		return WORLDS_REQUEST_URL + paramBuilder.toString();
 	}
 	
-	private void saveResponse(HttpResponse response) throws UnsupportedEncodingException, IllegalStateException, IOException {
+	private void saveResponse(HttpResponse response) throws UnsupportedEncodingException, IllegalStateException, IOException, JSONException {
 		String fileName = IOUtils.getWorldsFileName();
 		File file = new File(fileName);
 		IOUtils.saveToFile(file, response.getEntity().getContent());

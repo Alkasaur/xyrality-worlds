@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,10 +28,12 @@ import android.util.Log;
  * Bunch of general methods for IO operations.
  */
 public final class IOUtils {
+	private static final String FILENAME = "worlds.dat";
+	
 	private static final String TAG = "IOUtils";
 
 	public static String getWorldsFileName() {
-		return Environment.getExternalStorageDirectory() + File.separator + "worlds.dat";
+		return Environment.getExternalStorageDirectory() + File.separator + FILENAME;
 	}
 
 	public static void safelyCloseClosable(Closeable obj) {
@@ -65,32 +68,24 @@ public final class IOUtils {
     }
     
 	public static void saveToFile(File file, InputStream is) throws IOException {
-		FileOutputStream fos = null;
+		InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+		OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+		
 		try {
-			try {
-				fos = new FileOutputStream(file);
-			} catch (FileNotFoundException e) {
-				Log.e(TAG, "saveFile: '" + file
-						+ "' cannot be opened for writing", e);
-				throw e;
-			}
-
-			byte[] buf = new byte[1024];
+			char[] buf = new char[1024];
 			int len;
 			try {
-				while ((len = is.read(buf)) > 0) {
-					fos.write(buf, 0, len);
+				while ((len = reader.read(buf)) > 0) {
+					writer.write(buf, 0, len);
 				}
-				fos.flush();
+				writer.flush();
 			} catch (IOException e) {
 				Log.e(TAG, "saveFile: failed to save '" + file + '\'', e);
 				throw e;
 			}
 		} finally {
-			fos.close();
-			fos = null;
-			is.close();
-			is = null;
+			writer.close();
+			writer = null;
 		}
 	}
 	

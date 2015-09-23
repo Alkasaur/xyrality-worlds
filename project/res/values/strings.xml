@@ -7,4 +7,6 @@
     
     <string name="world_list_title">Available worlds</string>
     <string name="world_list_empty_text">No worlds were found</string>
+    
+    <string name="any_please_wait">Please wait&#8230;</string>
 </resources>

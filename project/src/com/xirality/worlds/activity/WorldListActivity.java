@@ -22,6 +22,7 @@ import com.xirality.worlds.utils.MailformedJSONConverter;
 
 public class WorldListActivity extends ListActivity {
 
+	private static final String KEY_NAME = "name";
 	private static final String KEY_AVAILABLE_WORLDS = "allAvailableWorlds";
 	
 	WorldListAdapter adapter;
@@ -61,7 +62,7 @@ public class WorldListActivity extends ListActivity {
 				JSONArray worldsJson = json.getJSONArray(KEY_AVAILABLE_WORLDS);
 				for (int i = 0; i < worldsJson.length(); i++) {
 					JSONObject item = worldsJson.getJSONObject(i);
-					adapter.add(item.getString("name"));
+					adapter.add(item.getString(KEY_NAME));
 				}
 				adapter.notifyDataSetChanged();
 			}

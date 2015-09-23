@@ -2,6 +2,7 @@ package com.xirality.worlds.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -9,8 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.xirality.worlds.R;
-import com.xirality.worlds.R.id;
-import com.xirality.worlds.R.layout;
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.task.BaseTask.TaskFailureListener;
 import com.xirality.worlds.task.BaseTask.TaskSuccessListener;
@@ -45,37 +44,30 @@ public class MainActivity extends Activity {
 	}
 
 	private void loginAndSearch() {
-		//TODO: validation
-		final String login = "android.test@xyrality.com"; //editLogin.getText().toString();
-		final String password = "password"; // editPassword.getText().toString();
-		
-		UserInfo info = new UserInfo(login, password);
-		info.setDeviceId(NetworkUtils.getMacAddress(this));
-		
-		LoginAndSearchTask task = new LoginAndSearchTask(this, info, new TaskSuccessListener<Boolean>() {
-			@Override
-			public void onTaskSuccess(Boolean result) {
-				WorldListActivity.start(MainActivity.this);
-			}
-		}, new TaskFailureListener() {
 
-			@Override
-			public void onTaskFailure(Throwable e) {
-				showError();
-			}
+		final String login = editLogin.getText().toString();
+		final String password = editPassword.getText().toString();
+		if (!TextUtils.isEmpty(login) && !TextUtils.isEmpty(password)) {
+			UserInfo info = new UserInfo(login, password);
+			info.setDeviceId(NetworkUtils.getMacAddress(this));
 
-			private void showError() {
-				handleError();
-			}
-		});
-		task.execute();
+			LoginAndSearchTask task = new LoginAndSearchTask(this, info, new TaskSuccessListener<Boolean>() {
+				@Override
+				public void onTaskSuccess(Boolean result) {
+					WorldListActivity.start(MainActivity.this);
+				}
+			}, new TaskFailureListener() {
+
+				@Override
+				public void onTaskFailure(Throwable e) {
+					handleError(e);
+				}
+			});
+			task.execute();
+		}
 	}
 
-	private void showNotImplementedYet() {
-		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
-	}
-	
-	private void handleError() {
-		Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
+	private void handleError(Throwable e) {
+		Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 	}
 }

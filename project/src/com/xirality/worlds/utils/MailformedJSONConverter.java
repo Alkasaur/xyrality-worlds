@@ -7,6 +7,9 @@ import java.io.OutputStream;
 
 public final class MailformedJSONConverter {
 	
+	private static final String CORRECT_UNICODE_START = "\\u";
+	private static final String MAILFORMED_UNICODE_START = "\\U";
+
 	public static OutputStream fixAndConvert(InputStream is) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		byte[] chunk = new byte[1];
@@ -19,6 +22,7 @@ public final class MailformedJSONConverter {
 			if (isString) {
 				if (chunk[0] == '"') {
 					currentString = '"' + currentString + '"'; 
+					currentString = currentString.replace(MAILFORMED_UNICODE_START, CORRECT_UNICODE_START);
 					out.write(currentString.getBytes());
 					currentString = "";
 					isString = false;
