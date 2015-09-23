@@ -6,13 +6,21 @@
 
 package com.xirality.worlds.utils;
 
+import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -21,6 +29,21 @@ import android.util.Log;
 public final class IOUtils {
 	private static final String TAG = "IOUtils";
 
+	public static String getWorldsFileName() {
+		return Environment.getExternalStorageDirectory() + File.separator + "worlds.dat";
+	}
+
+	public static void safelyCloseClosable(Closeable obj) {
+		if (obj != null) {
+			try {
+				obj.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			obj = null;
+		}
+	}
+	
     public static byte[] readBytesFromFile (File file) {
 
         byte[] result = null;
@@ -70,4 +93,15 @@ public final class IOUtils {
 			is = null;
 		}
 	}
+	
+	public static JSONObject getJSONObject(InputStream contentIS) throws JSONException, IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(contentIS));
+        StringBuilder sb = new StringBuilder();
+        for (String line = null; (line = reader.readLine()) != null;) {
+            sb.append(line).append('\n');
+        }
+        JSONTokener tokener = new JSONTokener(sb.toString());
+        JSONObject json = new JSONObject(tokener);
+        return json;
+    }
 }

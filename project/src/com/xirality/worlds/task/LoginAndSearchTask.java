@@ -13,7 +13,6 @@ import org.json.JSONException;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Environment;
 
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.utils.IOUtils;
@@ -72,12 +71,8 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
 	}
 	
 	private void saveResponse(HttpResponse response) throws UnsupportedEncodingException, IllegalStateException, IOException {
-		String fileName = getFileName();
+		String fileName = IOUtils.getWorldsFileName();
 		File file = new File(fileName);
 		IOUtils.saveToFile(file, response.getEntity().getContent());
-	}
-
-	private String getFileName() {
-		return Environment.getExternalStorageDirectory() + File.separator + "worlds.dat";
 	}
 }

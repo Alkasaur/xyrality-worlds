@@ -1,4 +1,4 @@
-package com.xirality.worlds;
+package com.xirality.worlds.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.xirality.worlds.R;
+import com.xirality.worlds.R.id;
+import com.xirality.worlds.R.layout;
 import com.xirality.worlds.model.UserInfo;
 import com.xirality.worlds.task.BaseTask.TaskFailureListener;
 import com.xirality.worlds.task.BaseTask.TaskSuccessListener;
@@ -52,7 +55,7 @@ public class MainActivity extends Activity {
 		LoginAndSearchTask task = new LoginAndSearchTask(this, info, new TaskSuccessListener<Boolean>() {
 			@Override
 			public void onTaskSuccess(Boolean result) {
-				showNotImplementedYet();
+				WorldListActivity.start(MainActivity.this);
 			}
 		}, new TaskFailureListener() {
 
@@ -62,7 +65,7 @@ public class MainActivity extends Activity {
 			}
 
 			private void showError() {
-				Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
+				handleError();
 			}
 		});
 		task.execute();
@@ -70,5 +73,9 @@ public class MainActivity extends Activity {
 
 	private void showNotImplementedYet() {
 		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+	}
+	
+	private void handleError() {
+		Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
 	}
 }

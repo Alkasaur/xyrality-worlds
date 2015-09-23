@@ -4,4 +4,7 @@
     <string name="login_hint">Login</string>
     <string name="password_hint">Password</string>
     <string name="login_button_label">Login</string>
+    
+    <string name="world_list_title">Available worlds</string>
+    <string name="world_list_empty_text">No worlds were found</string>
 </resources>

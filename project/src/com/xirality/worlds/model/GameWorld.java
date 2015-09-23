@@ -51,4 +51,11 @@ public class GameWorld {
 	public void setWorldStatus(WorldStatus worldStatus) {
 		this.worldStatus = worldStatus;
 	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getName()).append('\n').append(getCountry());
+		return sb.toString();
+	}
 }
