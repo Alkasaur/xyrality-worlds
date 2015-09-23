@@ -18,7 +18,7 @@ import android.os.Bundle;
 
 import com.xirality.worlds.R;
 import com.xirality.worlds.utils.IOUtils;
-import com.xirality.worlds.utils.MailformedJSONConverter;
+import com.xirality.worlds.utils.MalformedJSONConverter;
 
 public class WorldListActivity extends ListActivity {
 
@@ -53,8 +53,8 @@ public class WorldListActivity extends ListActivity {
 		InputStream tempInputStream = null;
 		try {
 			fin = new FileInputStream(file);
-			//seems our server returns mailformed JSON, so need to fix it
-			out = (ByteArrayOutputStream) MailformedJSONConverter.fixAndConvert(fin);
+			//seems our server returns malformed JSON, so need to fix it
+			out = (ByteArrayOutputStream) MalformedJSONConverter.fixAndConvert(fin);
 
 			tempInputStream = new ByteArrayInputStream(out.toByteArray());
 			

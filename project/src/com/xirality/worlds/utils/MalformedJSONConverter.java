@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public final class MailformedJSONConverter {
+public final class MalformedJSONConverter {
 	
 	private static final String CORRECT_UNICODE_START = "\\u";
 	private static final String MAILFORMED_UNICODE_START = "\\U";
