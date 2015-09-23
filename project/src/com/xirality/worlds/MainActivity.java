@@ -1,6 +1,15 @@
 package com.xirality.worlds;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xirality.worlds.model.GameWorld;
+import com.xirality.worlds.model.UserInfo;
+import com.xirality.worlds.task.LoginAndSearchTask;
+import com.xirality.worlds.utils.NetworkUtils;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +47,15 @@ public class MainActivity extends Activity {
 	}
 
 	private void loginAndSearch() {
-		showNotImplementedYet();
+		//TODO: validation
+		final String login = "android.test@xyrality.com"; //editLogin.getText().toString();
+		final String password = "password"; // editPassword.getText().toString();
+		
+		UserInfo info = new UserInfo(login, password);
+		info.setDeviceId(NetworkUtils.getMacAddress(this));
+		
+		LoginAndSearchTask task = new LoginAndSearchTask(info);
+		task.execute();
 	}
 
 	private void showNotImplementedYet() {
