@@ -50,6 +50,8 @@ public class LoginAndSearchTask extends BaseTask<Boolean> {
 	private Boolean search() throws ClientProtocolException, IOException, IllegalStateException, JSONException {
 
 		HttpPost post = new HttpPost(getUrlWithParams());
+		post.setHeader("Content-Type", "application/json");
+
 		
 		HttpClient client = new DefaultHttpClient();
         try {
